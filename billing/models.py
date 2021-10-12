@@ -1,6 +1,9 @@
 import uuid
 
+from django.contrib.auth import get_user_model
 from django.db import models
+
+User = get_user_model()
 
 
 class Account(models.Model):
@@ -13,6 +16,13 @@ class Account(models.Model):
         (CURRENT, 'текущий'),
     ]
 
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='accounts',
+        verbose_name='Владелец счета'
+    )
     name = models.CharField(
         'Название',
         max_length=7,
